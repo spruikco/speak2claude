@@ -47,35 +47,27 @@ class VoiceListener:
         if self.initialized:
             return True
 
-        self.log("Loading Whisper model...")
+        self.log("Loading Whisper model (faster-whisper)...")
         try:
-            import torch
             import numpy as np
-            from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor, pipeline
+            from faster_whisper import WhisperModel
 
-            device = "cuda:0" if torch.cuda.is_available() else "cpu"
-            dtype = torch.float16 if torch.cuda.is_available() else torch.float32
+            # Check for CUDA
+            import torch
+            if torch.cuda.is_available():
+                device = "cuda"
+                compute_type = "float16"
+                self.log(f"Using device: cuda (GPU accelerated)")
+            else:
+                device = "cpu"
+                compute_type = "int8"
+                self.log(f"Using device: cpu")
 
-            self.log(f"Using device: {device}")
-
-            hf_model_id = "openai/whisper-large-v3"
-            model = AutoModelForSpeechSeq2Seq.from_pretrained(
-                hf_model_id,
-                torch_dtype=dtype,
-                low_cpu_mem_usage=True,
-                use_safetensors=True
-            )
-            model.to(device)
-
-            processor = AutoProcessor.from_pretrained(hf_model_id)
-
-            self.whisper_pipe = pipeline(
-                "automatic-speech-recognition",
-                model=model,
-                tokenizer=processor.tokenizer,
-                feature_extractor=processor.feature_extractor,
-                torch_dtype=dtype,
+            # Load faster-whisper model
+            self.whisper_model = WhisperModel(
+                "large-v3",
                 device=device,
+                compute_type=compute_type
             )
 
             self.np = np
@@ -150,12 +142,16 @@ class VoiceListener:
             return ""
 
         try:
-            result = self.whisper_pipe(
-                {"array": audio, "sampling_rate": self.sample_rate},
-                return_timestamps=True,
-                generate_kwargs={"task": "transcribe", "language": "en"}
+            # faster-whisper transcribe
+            segments, info = self.whisper_model.transcribe(
+                audio,
+                language="en",
+                beam_size=1,  # Faster with beam_size=1
+                vad_filter=True  # Skip silence
             )
-            return result["text"].strip()
+            # Combine all segments
+            text = " ".join(segment.text for segment in segments)
+            return text.strip()
         except Exception as e:
             self.log(f"Transcription error: {e}")
             return ""
@@ -180,7 +176,7 @@ class VoiceListener:
         return False, ""
 
     def type_text(self, text):
-        """Type text into the active window using Windows API."""
+        """Type text into the active window."""
         if not text:
             return
 
