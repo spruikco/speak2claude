@@ -99,6 +99,20 @@ Say any of these to activate:
 
 ---
 
+## Why Not Built-in Dictation?
+
+Your OS has speech recognition built in. Here's why Speak2Claude is better for coding:
+
+| | Speak2Claude | Windows/macOS Dictation |
+|---|---|---|
+| **Privacy** | 100% local - audio never leaves your machine | Sends audio to Microsoft/Apple servers |
+| **Wake word** | "Hey Claude" triggers Claude directly | Just types text - you still hit Enter |
+| **Technical accuracy** | Whisper handles code terms, function names, jargon | Optimized for general speech |
+| **Offline** | Works without internet | Requires cloud connection |
+| **Customizable** | Choose model size, tweak behavior | Take it or leave it |
+
+---
+
 ## Troubleshooting
 
 **Wake word not detected?**
