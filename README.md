@@ -1,10 +1,32 @@
 # Speak2Claude
 
-> Talk to Claude Code with your voice. Just say "Hey Claude" and speak naturally.
+### Talk to Claude Code. Hands-free.
 
-## Installation
+Stop typing. Start talking. **Speak2Claude** lets you control Claude Code with your voice - just say "Hey Claude" and speak naturally.
 
-### Step 1: Download the installer
+```
+You: "Hey Claude, refactor this function to use async/await"
+
+[voice] *** WAKE WORD DETECTED! ***
+[voice] >>> refactor this function to use async/await
+
+Claude: I'll refactor that for you...
+```
+
+## Why Speak2Claude?
+
+- **Faster than typing** - Speak your thoughts as fast as you think them
+- **Stay in flow** - No context switching between keyboard and mouse
+- **Accessibility** - Code without strain on your hands
+- **Powered by Whisper** - OpenAI's state-of-the-art speech recognition
+- **Works offline** - All processing happens locally on your machine
+- **GPU accelerated** - Lightning fast on NVIDIA GPUs
+
+---
+
+## Quick Start
+
+### 1. Download
 
 **Windows (PowerShell):**
 ```powershell
@@ -16,76 +38,78 @@ Invoke-WebRequest -Uri "https://raw.githubusercontent.com/spruikco/speak2claude/
 curl -O https://raw.githubusercontent.com/spruikco/speak2claude/main/install.py
 ```
 
-### Step 2: Run the installer
+### 2. Install
 
 ```bash
 python install.py
 ```
 
-That's it! The installer will:
-- Create a virtual environment
-- Install all dependencies (PyTorch, Whisper, etc.)
-- Download the speech recognition model (~3GB)
-- Set up the `/listen` command for Claude Code
+The installer handles everything:
+- Creates isolated virtual environment
+- Installs PyTorch with CUDA support (auto-detected)
+- Downloads Whisper speech recognition model
+- Sets up the `/listen` slash command
 
-### Step 3: Use it
+### 3. Use
 
 1. Open Claude Code
 2. Type `/listen`
-3. Say **"Hey Claude"** followed by your message
+3. Say **"Hey Claude"** + your command
 
-```
-You: "Hey Claude, create a React component for a login form"
-
-[voice] *** WAKE WORD DETECTED! ***
-[voice] >>> create a React component for a login form
-
-Claude: I'll create that component for you...
-```
+That's it. You're now voice-controlling Claude.
 
 ---
 
-## Options
+## Model Options
 
-### Choose a smaller model (for slower computers)
+Choose based on your hardware:
 
-| Option | Download Size | GPU Memory | Best For |
-|--------|--------------|------------|----------|
-| `python install.py` | 3 GB | 4 GB | Best accuracy (default) |
-| `python install.py --model medium` | 1.5 GB | 2 GB | Good balance |
-| `python install.py --model small` | 500 MB | 1 GB | Faster response |
-| `python install.py --model tiny` | 150 MB | 500 MB | Low-end hardware |
+| Command | Model | Speed | Accuracy | GPU RAM |
+|---------|-------|-------|----------|---------|
+| `python install.py` | large-v3 | Slower | Best | 4 GB |
+| `python install.py --model medium` | medium | Balanced | Great | 2 GB |
+| `python install.py --model small` | small | Fast | Good | 1 GB |
+| `python install.py --model tiny` | tiny | Fastest | Basic | 500 MB |
 
-### No GPU? Use CPU mode
-
+**No GPU?** Use CPU mode:
 ```bash
 python install.py --cpu
 ```
 
 ---
 
+## Wake Words
+
+Say any of these to activate:
+- "Hey Claude"
+- "Hi Claude"
+- "Okay Claude"
+- "Hey Cloud" (it's forgiving!)
+
+---
+
 ## Requirements
 
-- Python 3.8 or newer
-- A microphone
+- Python 3.8+
+- Microphone
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed
-- **Recommended:** NVIDIA GPU for faster transcription
+- NVIDIA GPU recommended (but not required)
 
 ---
 
 ## Troubleshooting
 
-**"Hey Claude" not working?**
-- Speak clearly, pause briefly after "Hey Claude"
-- Also works: "Hi Claude", "Okay Claude", "Hey Cloud"
+**Wake word not detected?**
+- Pause briefly after "Hey Claude"
+- Speak clearly into your mic
 
 **Slow transcription?**
-- Try a smaller model: `python install.py --model small`
-- Check GPU is working: run `nvidia-smi`
+- Use a smaller model: `--model small`
+- Verify GPU: run `nvidia-smi`
 
-**No audio input?**
-- Check microphone permissions in your OS settings
-- Make sure your mic is set as the default recording device
+**No audio?**
+- Check mic permissions in OS settings
+- Set correct default recording device
 
 ---
 
@@ -102,11 +126,27 @@ rm -rf ~/.speak2claude ~/.claude/commands/listen.md
 
 ---
 
+## Contributing
+
+PRs welcome! Some ideas:
+- [ ] Mac/Linux audio feedback
+- [ ] Custom wake words
+- [ ] Multi-language support
+- [ ] Continuous conversation mode
+
+---
+
 ## License
 
-MIT - do whatever you want with it.
+MIT - Use it however you want.
+
+---
 
 ## Credits
 
-- [OpenAI Whisper](https://github.com/openai/whisper) for speech recognition
-- Built for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) by Anthropic
+- [OpenAI Whisper](https://github.com/openai/whisper) - Speech recognition
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) - The AI assistant you're talking to
+
+---
+
+**Built with voice input. Obviously.**
