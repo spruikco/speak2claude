@@ -18,7 +18,7 @@ Claude: I'll refactor that for you...
 - **Faster than typing** - Speak your thoughts as fast as you think them
 - **Stay in flow** - No context switching between keyboard and mouse
 - **Accessibility** - Code without strain on your hands
-- **Powered by Whisper** - OpenAI's state-of-the-art speech recognition
+- **Powered by faster-whisper** - CTranslate2-optimized Whisper for ~4x faster transcription
 - **Works offline** - All processing happens locally on your machine
 - **GPU accelerated** - Lightning fast on NVIDIA GPUs
 
@@ -62,14 +62,16 @@ That's it. You're now voice-controlling Claude.
 
 ## Model Options
 
-Choose based on your hardware:
+The default `base.en` model offers the best balance of speed and accuracy for English. Choose based on your needs:
 
 | Command | Model | Speed | Accuracy | GPU RAM |
 |---------|-------|-------|----------|---------|
-| `python install.py` | large-v3 | Slower | Best | 4 GB |
-| `python install.py --model medium` | medium | Balanced | Great | 2 GB |
-| `python install.py --model small` | small | Fast | Good | 1 GB |
-| `python install.py --model tiny` | tiny | Fastest | Basic | 500 MB |
+| `python install.py` | base.en | Fast | Great | ~400 MB |
+| `python install.py --model small.en` | small.en | Moderate | Better | ~1 GB |
+| `python install.py --model tiny.en` | tiny.en | Fastest | Good | ~150 MB |
+| `python install.py --model large-v3` | large-v3 | Slower | Best | ~3 GB |
+
+**Recommendation:** Start with the default `base.en` - it's fast enough for real-time use and handles conversational English very well.
 
 **No GPU?** Use CPU mode:
 ```bash
@@ -144,7 +146,8 @@ MIT - Use it however you want.
 
 ## Credits
 
-- [OpenAI Whisper](https://github.com/openai/whisper) - Speech recognition
+- [faster-whisper](https://github.com/SYSTRAN/faster-whisper) - CTranslate2-optimized Whisper implementation
+- [OpenAI Whisper](https://github.com/openai/whisper) - Original speech recognition model
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) - The AI assistant you're talking to
 
 ---
