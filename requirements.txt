@@ -1,0 +1,11 @@
+# Speak2Claude Dependencies
+# Note: PyTorch is installed separately with CUDA support
+
+transformers>=4.36.0
+sounddevice>=0.4.6
+pyperclip>=1.8.2
+pyautogui>=0.9.54
+accelerate>=0.25.0
+
+# For Windows audio feedback
+# winsound is built-in on Windows
